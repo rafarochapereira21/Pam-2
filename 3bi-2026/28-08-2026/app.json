@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "name": "Harmonic",
+    "slug": "harmonic-mobile-navigation",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light"
+  }
+}
