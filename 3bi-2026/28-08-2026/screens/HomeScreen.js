@@ -1,133 +1,68 @@
 import React from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const baseUrl =
-  'https://raw.githubusercontent.com/GabryelTenorio/PW3/main/3bi-2026/31-07-2026';
-
-const secoes = [
-  {
-    titulo: 'Suas Junkbox',
-    itens: [
-      { nome: 'Favoritas', imagem: 'images (1).jpg' },
-      { nome: 'Mix diário', imagem: 'images (2).jpg' },
-      { nome: 'Descobertas', imagem: 'images (3).jpg' },
-    ],
-  },
-  {
-    titulo: 'Músicas em Alta',
-    itens: [
-      { nome: 'Top Hits', imagem: 'images (4).jpg' },
-      { nome: 'Em alta agora', imagem: 'images (5).jpg' },
-      { nome: 'Novidades', imagem: 'images (6).jpg' },
-    ],
-  },
-  {
-    titulo: 'Suas Playlists',
-    itens: [
-      { nome: 'Minha playlist', imagem: 'images.jpg' },
-      { nome: 'Para relaxar', imagem: 'download (1).jpg' },
-      { nome: 'Para treinar', imagem: 'download.jpg' },
-    ],
-  },
+const musicas = [
+  { id: '1', nome: 'Enter Sandman', artista: 'Metallica' },
+  { id: '2', nome: 'Hail to the King', artista: 'Avenged Sevenfold' },
+  { id: '3', nome: 'Back in Black', artista: 'AC/DC' },
+  { id: '4', nome: 'Master of Puppets', artista: 'Metallica' },
+  { id: '5', nome: 'Nightmare', artista: 'Avenged Sevenfold' },
+  { id: '6', nome: 'Paranoid', artista: 'Black Sabbath' },
 ];
-
-function MusicCard({ item }) {
-  const imageUrl = `${baseUrl}/${encodeURIComponent(item.imagem)}`;
-
-  return (
-    <View style={styles.card}>
-      <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
-      <Text style={styles.cardTitle} numberOfLines={1}>
-        {item.nome}
-      </Text>
-    </View>
-  );
-}
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView style={styles.page} edges={['left', 'right', 'bottom']}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.greeting}>Olá, usuário</Text>
-        <Text style={styles.description}>
-          Continue ouvindo o que combina com o seu momento.
-        </Text>
+    <SafeAreaView style={styles.container} edges={['left', 'right', 'bottom']}>
+      <Text style={styles.titulo}>Minhas músicas</Text>
+      <Text style={styles.subtitulo}>Lista de músicas:</Text>
 
-        {secoes.map((secao) => (
-          <View key={secao.titulo} style={styles.section}>
-            <Text style={styles.sectionTitle}>{secao.titulo}</Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.row}
-            >
-              {secao.itens.map((item) => (
-                <MusicCard key={`${secao.titulo}-${item.nome}`} item={item} />
-              ))}
-            </ScrollView>
+      <FlatList
+        data={musicas}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.lista}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.nome}>{item.nome}</Text>
+            <Text style={styles.artista}>{item.artista}</Text>
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  page: {
+  container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    padding: 20,
+    backgroundColor: '#fff',
   },
-  content: {
-    paddingVertical: 22,
+  titulo: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 6,
   },
-  greeting: {
-    fontSize: 30,
-    fontWeight: '800',
-    color: '#111111',
-    paddingHorizontal: 18,
+  subtitulo: {
+    fontSize: 18,
+    marginBottom: 15,
   },
-  description: {
-    fontSize: 14,
-    color: '#666666',
-    paddingHorizontal: 18,
-    marginTop: 6,
+  lista: {
+    paddingBottom: 20,
+  },
+  item: {
+    padding: 15,
     marginBottom: 10,
+    backgroundColor: '#eee',
+    borderRadius: 8,
   },
-  section: {
-    marginTop: 22,
+  nome: {
+    fontSize: 17,
+    fontWeight: 'bold',
   },
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#111111',
-    paddingHorizontal: 18,
-    marginBottom: 12,
-  },
-  row: {
-    paddingHorizontal: 18,
-    paddingBottom: 4,
-  },
-  card: {
-    width: 160,
-    marginRight: 14,
-  },
-  image: {
-    width: 160,
-    height: 160,
-    borderRadius: 14,
-    backgroundColor: '#dddddd',
-  },
-  cardTitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#222222',
-    marginTop: 8,
+  artista: {
+    fontSize: 14,
+    marginTop: 4,
+    color: '#555',
   },
 });
